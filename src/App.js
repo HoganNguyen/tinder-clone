@@ -11,7 +11,10 @@ import {
   faMagnifyingGlassLocation,
   faBriefcase,
   faShield,
-  faLocationDot
+  faLocationDot,
+  faGraduationCap,
+  faInfo,
+  faDownLong
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useSwipeable } from "react-swipeable";
@@ -20,6 +23,8 @@ function App() {
   const [currentTab, setCurrentTab] = useState("Matches");
 
   const [currentImage, setCurrentImage] = useState(0);
+
+  const [infoButtonClicked, setInfoButtonClicked] = useState(false);
 
   const images = [
     {
@@ -56,12 +61,20 @@ function App() {
     }
   ];
 
+  const matched = images;
+
+  const matchedMessages = matched.map(item => <div />);
+
   const matchedItems = images.map(image =>
     <li
       key={image.src}
       className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 items-center grid justify-items-center"
     >
-      <img className="rounded-full" src={image.src} /> <span>{image.name}</span>
+      <img
+        className="rounded-full w-20 h-20 object-cover"
+        src={image.src}
+      />{" "}
+      <span>{image.name}</span>
     </li>
   );
 
@@ -77,35 +90,13 @@ function App() {
     setCurrentImage(currentImage === images.length - 1 ? 0 : currentImage + 1);
   };
 
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
-
   // the required distance between touchStart and touchEnd to be detected as a swipe
   const minSwipeDistance = 50;
-
-  const onTouchStart = e => {
-    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = e => setTouchEnd(e.targetTouches[0].clientX);
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-    if (isLeftSwipe || isRightSwipe)
-      console.log("swipe", isLeftSwipe ? "left" : "right");
-    if (isLeftSwipe || isRightSwipe) next();
-  };
 
   const handleSwipe = eventData => {
     console.log("Swiped");
     next();
   };
-
-  const swipeHandlers = useSwipeable({ onSwiped: handleSwipe });
 
   const handlers = useSwipeable({
     onSwipedLeft: eventData => {
@@ -119,6 +110,11 @@ function App() {
     delta: 50,
     trackMouse: true
   });
+
+  const handleInfoButtonClicked = () => {
+    setInfoButtonClicked(!infoButtonClicked);
+    console.log("Info button Clicked" + infoButtonClicked);
+  };
 
   return (
     <div className="flex h-screen">
@@ -220,28 +216,119 @@ function App() {
 
       <div className="relative h-screen w-4/5 grid justify-items-center items-center">
         <div className="relative h-4/6 w-96">
-          <div className="w-full h-full relative mix-blend-overlay">
-            <img
-              {...handlers}
-              className="object-cover min-h-full absolute opacity-50 rounded-lg"
-              draggable
-              src={images[currentImage].src}
-            />
-            <div className="absolute -z-10 bg-gradient-to-t from-black via-black to-transparent h-full w-full rounded-lg" />
-            <div className="absolute bottom-40 text-white pl-10">
-              <div className="flex">
-                <span className="text-3xl font-bold mr-2">
-                  {images[currentImage].name}
-                </span>{" "}
-                <span className="text-3xl font-light">
-                  {images[currentImage].age}
-                </span>
-              </div>
+          {!infoButtonClicked &&
+            <div className="w-full h-full relative mix-blend-overlay">
+              <img
+                {...handlers}
+                className="object-cover min-h-full absolute opacity-50 rounded-lg"
+                draggable
+                src={images[currentImage].src}
+              />
+              <div className="absolute -z-10 bg-gradient-to-t from-black via-black to-transparent h-full w-full rounded-lg" />
+              <div className="absolute bottom-28 text-white pl-10">
+                <div className="flex">
+                  <span className="text-3xl font-bold mr-2">
+                    {images[currentImage].name}
+                  </span>{" "}
+                  <span className="text-3xl font-light">
+                    {images[currentImage].age}
+                  </span>
+                </div>
 
-              <div className="flex">
-              <FontAwesomeIcon icon={faLocationDot} />{" "}<span className="text-xl font-bold mr-2">{images[currentImage].address}</span>
+                <div className="flex">
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    style={{ paddingTop: "5px" }}
+                  />{" "}
+                  <span className="text-xl font-bold ml-2 mr-9">
+                    {images[currentImage].address}
+                  </span>
+                  <span className="text-xl font-light">
+                    {images[currentImage].distances} away
+                  </span>
+                </div>
+
+                <div className="flex">
+                  <FontAwesomeIcon
+                    icon={faGraduationCap}
+                    style={{ paddingTop: "4px" }}
+                  />
+                  <span className="ml-2 mr-9">
+                    {images[currentImage].university}
+                  </span>
+                </div>
               </div>
-            </div>
+            </div>}
+          {infoButtonClicked &&
+            <div
+              className="h-full w-full overflow-y-scroll shadow-md rounded-lg"
+              style={{ overscrollBehavior: "none" }}
+            >
+              <img
+                {...handlers}
+                className="object-cover h-96 absolute rounded-lg border-b border-solid"
+                draggable
+                src={images[currentImage].src}
+                min-h-full
+              />
+              <div className="absolute bottom-40 pl-10 border-b border-solid w-full pb-2">
+                <div className="flex">
+                  <span className="text-3xl font-bold mr-2">
+                    {images[currentImage].name}
+                  </span>{" "}
+                  <span className="text-3xl font-light">
+                    {images[currentImage].age}
+                  </span>
+                </div>
+
+                <div className="flex text-slate-500">
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    style={{ paddingTop: "5px" }}
+                  />{" "}
+                  <span className="text-xl font-bold ml-2 mr-9">
+                    {images[currentImage].address}
+                  </span>
+                  <span className="text-xl font-light">
+                    {images[currentImage].distances} away
+                  </span>
+                </div>
+
+                <div className="flex text-slate-500">
+                  <FontAwesomeIcon
+                    icon={faGraduationCap}
+                    style={{ paddingTop: "4px" }}
+                  />
+                  <span className="ml-2 mr-9">
+                    {images[currentImage].university}
+                  </span>
+                </div>
+              </div>
+            </div>}
+          <div
+            className={
+              infoButtonClicked
+                ? "absolute bottom-60 right-12"
+                : "absolute bottom-32 right-14"
+            }
+          >
+            <button
+              className={
+                infoButtonClicked
+                  ? "rounded-full bg-gradient-to-r from-pink-600 via-red-600 to-orange-600 w-12 h-12 items-center p-1 hover:-translate-y-1 hover:scale-125 duration-150"
+                  : "rounded-full bg-white w-6 h-6 items-center hover:-translate-y-1 hover:scale-125 duration-300"
+              }
+              onClick={() => handleInfoButtonClicked()}
+            >
+              {infoButtonClicked &&
+                <FontAwesomeIcon
+                  icon={faDownLong}
+                  style={{ color: "#FFFFFF" }}
+                  size="2x"
+                />}
+              {!infoButtonClicked &&
+                <FontAwesomeIcon icon={faInfo} style={{ color: "#000000" }} />}
+            </button>
           </div>
           <div className="flex items-center justify-center absolute bottom-5 left-12 space-x-3">
             <button
