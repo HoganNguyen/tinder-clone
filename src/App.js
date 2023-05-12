@@ -16,7 +16,11 @@ import {
   faInfo,
   faDownLong,
   faMoon,
-  faPaw
+  faPaw,
+  faArrowLeft,
+  faArrowUp,
+  faArrowRight,
+  faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useSwipeable } from "react-swipeable";
@@ -144,6 +148,7 @@ function App() {
         break;
       case 38: // ArrowUp
         console.log("Up arrow pressed");
+        setInfoButtonClicked(true);
         break;
       case 39: // ArrowRight
         console.log("Right arrow pressed");
@@ -151,6 +156,7 @@ function App() {
         break;
       case 40: // ArrowDown
         console.log("Down arrow pressed");
+        setInfoButtonClicked(false);
         break;
       default:
         console.log("Other key pressed");
@@ -419,71 +425,67 @@ function App() {
           </div>
           <div className="flex items-center justify-center absolute bottom-5 left-12 space-x-3">
             <button
-              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#FFBF00] rounded-full p-1"
+              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#FFBF00] rounded-full p-3"
               onClick={() => previous()}
             >
               <FontAwesomeIcon
                 icon={faRotateLeft}
                 style={{ color: "#FFBF00" }}
-                size="3x"
+                size="2x"
               />
             </button>
             <button
-              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#FF0000] rounded-full px-3 py-1"
+              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#FF0000] rounded-full px-4 py-3"
               onClick={() => next()}
               accessKey="37"
             >
               <FontAwesomeIcon
                 icon={faX}
                 style={{ color: "#FF0000" }}
-                size="3x"
+                size="2x"
               />
             </button>
             <button
-              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#00A36C] rounded-full p-1"
+              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#00A36C] rounded-full p-3"
               onClick={() => next()}
             >
               <FontAwesomeIcon
                 icon={faHeart}
                 style={{ color: "#00A36C" }}
-                size="3x"
+                size="2x"
               />
             </button>
             <button
-              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#00FFFF] rounded-full p-1"
+              className="rounded-circle transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 duration-300 border-2 border-solid border-[#00FFFF] rounded-full p-3"
               onClick={() => next()}
             >
               <FontAwesomeIcon
                 icon={faStar}
                 style={{ color: "#00FFFF" }}
-                size="3x"
+                size="2x"
               />
             </button>
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-5 left-1/3 flex">
+        <div className="absolute inset-x-0 bottom-5 left-1/2 -translate-x-2/4 flex">
           <div className="hide-btn">
             {/* <button>Hide</button> */}
           </div>
-          <ul className="flex list-group list-group-horizontal">
-            <li className="list-group-item border-3 border-solid border p-2">
-              Nope
+          <ul className="flex list-group list-group-horizontal text-gray-500 font-semibold text-sm">
+            <li className="list-group-item border-3 border-solid border p-2 flex space-x-1">
+              <div className="border border-solid border-black px-1 rounded-md"><FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon></div> <span>Nope</span>
             </li>
-            <li className="list-group-item border-3 border-solid border p-2">
-              Like
-            </li>
-            <li className="list-group-item border-3 border-solid border p-2">
-              Open Profile
-            </li>
-            <li className="list-group-item border-3 border-solid border p-2">
-              Close Profile
-            </li>
-            <li className="list-group-item border-3 border-solid border p-2">
-              Super Like
-            </li>
-            <li className="list-group-item border-3 border-solid border p-2">
-              Next Photo
+            <li className="list-group-item border-3 border-solid border p-2 flex space-x-1">
+              <div className="border border-solid border-black px-1 rounded-md"><FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></div> <span>Like</span>
+            </li>            <li className="list-group-item border-3 border-solid border p-2 flex space-x-1">
+              <div className="border border-solid border-black px-1 rounded-md"><FontAwesomeIcon icon={faArrowUp}></FontAwesomeIcon></div> <span>Open Profile</span>
+            </li>            <li className="list-group-item border-3 border-solid border p-2 flex space-x-1">
+              <div className="border border-solid border-black px-1 rounded-md"><FontAwesomeIcon icon={faArrowDown}></FontAwesomeIcon></div> <span>Close profile</span>
+            </li>            <li className="list-group-item border-3 border-solid border p-2 flex space-x-1">
+              <div className="border border-solid border-black px-1 rounded-md"><FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></div> <span>Super Like</span>
+            </li>            <li className="list-group-item border-3 border-solid border p-2 flex space-x-1">
+              <div className="border border-solid border-black px-1 rounded-md"><FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon></div> <span>Next Photo</span>
             </li>
           </ul>
         </div>
